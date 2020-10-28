@@ -1,7 +1,11 @@
-int rev_num(int num) {
+#define _USE_MATH_DEFINES
+#include <cmath>
+
+int rev_num(int num)
+{
 	// ‘ункци€ принимает целое число <num> и возвращает его в обратном виде
 
-	int res{ 0 }; // res Ц переменна€, в которую записывает обратное число
+	int res{ 0 };  // res Ц переменна€, в которую записывает обратное число
 
 	/*  јлгоритм стандартный: пока число не равно 0,
 	берЄм последнюю цифру и прибавл€ем еЄ в <res>,
@@ -19,7 +23,8 @@ int rev_num(int num) {
 }
 
 
-bool check_div(int temp, int rev_temp) {
+bool check_div(int temp, int rev_temp)
+{
 	// ‘ункци€ провер€ет кратна ли 6-ти разность <temp> и <rev_temp>
 
 	if ((temp - rev_temp) % 6 == 0)
@@ -29,7 +34,8 @@ bool check_div(int temp, int rev_temp) {
 }
 
 
-int dig_sum(int num) {
+int dig_sum(int num)
+{
 	// ‘ункци€ находит сумму цифр числа <num>
 	int num_sum{ 0 };
 	while (num != 0) {
@@ -40,14 +46,45 @@ int dig_sum(int num) {
 }
 
 
-void find_max(int num, int& maxi, int& maxi_sum) {
+void find_max(int num, int& maxi, int& maxi_sum)
+{
 	// ‘ункци€ выбирает число (<num> или <maxi>), у которого сумма цифр больше
 	// maxi_sum Ц это сумма цифр числа <maxi> (чтобы не считать еЄ по несколько раз)
 
-	int num_sum = dig_sum(num); // num_sum Ц сумма цифр <num>
+	int num_sum = dig_sum(num);  // num_sum Ц сумма цифр <num>
 	if (num_sum > maxi_sum) {
 		maxi = num;
 		maxi_sum = num_sum;
 	}
 	return;
+}
+
+
+double prob_integr(double x)
+{
+	// ‘ункци€ вычислени€ интеграла веро€тности
+
+	double eps = 1e-20;
+	int k = 1;
+	double el = x, sum = 0.0, m = 1.0;
+
+	while (abs(el) > eps) {
+		sum += el;
+		el *= m;
+		m += 2.0;
+		el *= (-1.0) * x * x / 2.0 / m / k;
+		k += 1.0;
+	}
+	return sum * sqrt(2.0) / sqrt(M_PI);
+}
+
+
+double func(int n, int t = 0)
+{
+	// ‘ункци€ вычислени€ по заданной формуле (рекурсивно)
+
+	if (t == n)
+		return sqrt(2 * t + 1);
+	else
+		return sqrt((2 * t + 1) + func(n, t + 1));
 }
